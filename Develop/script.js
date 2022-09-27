@@ -34,10 +34,9 @@ console.log(symbols);
 
 // initializing variables used in generate password
 var passwordlength = [];
-var mypassword = [];
 var arrayselect = [];
 var randomvalue = [];
-var passchar = "";
+var passchar = ""; // this isn't an array, we're building out a string instead of an array
 
 // function of choosing a random value between min to max which symbolize each of the 4 arrays containing values
 function arrayrandom(min, max) {
@@ -47,6 +46,13 @@ function arrayrandom(min, max) {
 }
 
 function generatepassword() {
+
+  // confirming criteria for the password
+  var usenum = confirm("Would you like to use numbers in the password?");
+  var useupper = confirm("Would you like to use uppercase letters?");
+  var uselower = confirm("Would you like to use lowercase letters?");
+  var usesymb = confirm("Would you like to use symbols?");
+
 
   // original input for password length
   passwordlength = window.prompt("Please enter how many characters you want your password:",);
@@ -58,23 +64,28 @@ function generatepassword() {
   // using a for loop to build the password
   // how do want to to randomize it? use 1-4 each literation to pick an array then use the length of each array then radomize a value for a character in that array
   for (let i = 0; i < passwordlength; i++) {
-    arrayselect = arrayrandom(1,4); // hardcoding 1 to 4 as values to symbolize the arrays
+    arrayselect[i] = arrayrandom(1,4); // hardcoding 1 to 4 as values to symbolize the arrays
 
       // this nested if is to use the random value from 1-4 to select it will picks it symbol from
-      if (arrayselect === 1) {
+      if (arrayselect[i] === 1 && usenum === true) {
         randomvalue = arrayrandom(0,number.length-1);
         passchar += number[randomvalue];
-      } else if (arrayselect === 2) {
+      } else if (arrayselect[i] === 2 && usenum === true) {
         randomvalue = arrayrandom(0,upperalphabet.length-1);
         passchar += upperalphabet[randomvalue];
-      } else if (arrayselect === 3) {
+      } else if (arrayselect[i] === 3 && usenum === true) {
         randomvalue = arrayrandom(0,loweralphabet.length-1);
         passchar += loweralphabet[randomvalue];
-      } else if (arrayselect === 4) {
+      } else if (arrayselect[i] === 4 && usenum === true) {
         randomvalue = arrayrandom(0,symbols.length-1);
         passchar += symbols[randomvalue];
+      } else {
+        i = i - 1;
       } 
+
   }
+
+
 
   // The return function states that the output of function generatepassword is this
   return passchar;
@@ -89,7 +100,6 @@ function writePassword() {
 
   // using console logs to ensure generatepassword function is working
   console.log(passwordlength);
-  console.log(mypassword);
   console.log(arrayselect);
   console.log(randomvalue);
   console.log(passchar);
