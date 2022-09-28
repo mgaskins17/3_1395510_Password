@@ -37,23 +37,28 @@ var passwordlength = [];
 var arrayselect = [];
 var randomvalue = [];
 var passchar = ""; // this isn't an array, we're building out a string instead of an array
-var crione = 0;
-var critwo = 0;
-var crithr = 0;
-var crifour = 0;
 var randplace = 0;
+var counter = 0;
+
+
+
+
 
 // function of choosing a random value between min to max which symbolize each of the 4 arrays containing values
 function arrayrandom(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max-min) + min);
+  return Math.floor(Math.random() * (max-min+1) + min); // is inclusive of min and max because Math.random can be 0 but never 1 - returns a decimal between 0 and 1
 }
 
 // BUILDING OUT PASSWORD FUNCTION
 function generatepassword() {
 
   passchar = "";
+  crione = 0;
+  critwo = 0;
+  crithr = 0;
+  crifour = 0;
   // confirming criteria for the password using booleans
   var usenum = confirm("Would you like to use numbers in the password?");
   var useupper = confirm("Would you like to use uppercase letters?");
@@ -67,62 +72,62 @@ function generatepassword() {
     passwordlength = window.prompt("Please choose a password between 8 - 128 characters:");
   }
 
+  // build a starter set for passchar which contains at least each of the selected criteria
+  if (usenum == true) {
+        randomvalue = arrayrandom(0,NUMBERS.length-1);
+        passchar += NUMBERS[randomvalue];
+        //counter = counter + 1;
+        counter++;
+  }
+  if (useupper == true) {
+        randomvalue = arrayrandom(0,NUMBERS.length-1);
+        passchar += UPPERS[randomvalue];
+        counter++;
+  }
+  if (uselower == true) {
+        randomvalue = arrayrandom(0,NUMBERS.length-1);
+        passchar += LOWERS[randomvalue];
+        counter++;
+  }
+  if (usesymb == true) {
+        randomvalue = arrayrandom(0,NUMBERS.length-1);
+        passchar += SYMBOLS[randomvalue];
+        counter++;
+  }
+
   // using a for loop to build the password
   // use 1-4 each literation to pick an array then use the length of each array then radomize a value for a character in that array
-  for (let i = 0; i < passwordlength; i++) {
-    // arrayselect[i] = arrayrandom(1,4); // hardcoding 1 to 4 as values to symbolize the arrays 
-    arrayselect[i] = 4;
-
+  for (let i = 0; i < (passwordlength-counter); i++) {
+    arrayselect[i] = arrayrandom(1,4); // hardcoding 1 to 4 as values to symbolize the arrays 
+    
       // this nested if is to use the random value from 1-4 to select it will picks it symbol from
       // stricter criteria
       if (arrayselect[i] === 1 && usenum === true) {
         randomvalue = arrayrandom(0,NUMBERS.length-1);
         passchar += NUMBERS[randomvalue];
-        crione = crione + 1;
       } else if (arrayselect[i] === 2 && useupper === true) {
         randomvalue = arrayrandom(0,UPPERS.length-1);
         passchar += UPPERS[randomvalue];
-        critwo = critwo + 1;
       } else if (arrayselect[i] === 3 && uselower === true) {
         randomvalue = arrayrandom(0,LOWERS.length-1);
         passchar += LOWERS[randomvalue];
-        crithr = crithr + 1;
       } else if (arrayselect[i] === 4 && usesymb === true) {
         randomvalue = arrayrandom(0,SYMBOLS.length-1);
         passchar += SYMBOLS[randomvalue];
-        crifour = crifour + 1;
       } else {
         i = i - 1;
       } 
 
   }
 
-while (crione == 0  || critwo == 0 || crithr == 0 || crifour == 0) {
-  if (usenum == true & crione == 0) {
-    randplace = arrayrandom(0,passchar.length-1); // random location
-    randomvalue = arrayrandom(0,NUMBERS.length-1);
-    passchar[randplace] = NUMBERS[randomvalue];
-    crione = crione + 1;
-  } else if (useupper == true & critwo == 0) {
-    randplace = arrayrandom(0,passchar.length-1);
-    randomvalue = arrayrandom(0,UPPERS.length-1);
-    passchar[randplace] = UPPERS[randomvalue];
-    critwo = critwo + 1;
-  } else if (uselower == true & crithr == 0) {
-    randplace = arrayrandom(0,passchar.length-1);
-    randomvalue = arrayrandom(0,LOWERS.length-1);
-    passchar[randplace] = LOWERS[randomvalue];
-    crithr = crithr + 1;
-  } else if (usesymb == true & crifour == 0) {
-    randplace = arrayrandom(0,passchar.length-1);
-    randomvalue = arrayrandom(0,SYMBOLS.length-1);
-    passchar[randplace] = SYMBOLS[randomvalue];
-    crifour = crifour + 1;
-  }
-}
+  // hashing the password to scramble it - just make the password more secure
+  
+
+
   // The return function states that the output of function generatepassword is this
   return passchar;
 }
+
 
 
 // Write password to the #password input
@@ -136,10 +141,7 @@ function writePassword() {
   console.log(arrayselect);
   console.log(randomvalue);
   console.log(passchar);
-  console.log(crione);
-  console.log(critwo);
-  console.log(crithr);
-  console.log(crifour);
+  console.log(counter);
 
   var passwordText = document.querySelector("#password");
 
