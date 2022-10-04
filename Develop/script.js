@@ -39,7 +39,7 @@ var randomvalue = [];
 var passchar = ""; // this isn't an array, we're building out a string instead of an array
 var randplace = 0;
 var counter = 0;
-
+// var temppass = "";
 
 
 
@@ -55,15 +55,21 @@ function arrayrandom(min, max) {
 function generatepassword() {
 
   passchar = "";
-  crione = 0;
-  critwo = 0;
-  crithr = 0;
-  crifour = 0;
-  // confirming criteria for the password using booleans
-  var usenum = confirm("Would you like to use numbers in the password?");
-  var useupper = confirm("Would you like to use uppercase letters?");
-  var uselower = confirm("Would you like to use lowercase letters?");
-  var usesymb = confirm("Would you like to use symbols?");
+ 
+
+// initializing the boolean variables to be false so they enter the while loop which will constantly run through the questions until one is at least true 
+var usenum = false;
+var useupper = false;
+var uselower = false;
+var usesymb = false;
+
+ // confirming criteria for the password using booleans and using a while loop to make sure the user doesn't just cancel each menu
+while (usenum == false && useupper == false && uselower == false && usesymb == false) {
+  usenum = confirm("Would you like to use numbers in the password?");
+  useupper = confirm("Would you like to use uppercase letters?");
+  uselower = confirm("Would you like to use lowercase letters?");
+  usesymb = confirm("Would you like to use symbols?");
+}
 
   // original input for password length
   passwordlength = window.prompt("Please enter how many characters you want your password:",);
@@ -95,6 +101,8 @@ function generatepassword() {
         counter++;
   }
 
+
+
   // using a for loop to build the password
   // use 1-4 each literation to pick an array then use the length of each array then radomize a value for a character in that array
   for (let i = 0; i < (passwordlength-counter); i++) {
@@ -121,13 +129,20 @@ function generatepassword() {
   }
 
   // hashing the password to scramble it - just make the password more secure
-  
-
+  // use a temporary variable then remove a ltter and add to temporary variable
+  // rename password passchar so it's vital again - can use bigger for loop to run hashing progroms multiple times
+  // the random comes from which position will move over first and be deleted  
+  // var temppass = "";
+  // for (let i=0; i < (passchar.length); i++) {
+    // randomvalue = arrayrandom(0,pass.length-1);
+    // temppass[i] = passchar[randomvalue];
+    // passchar = passchar.substring(randomvalue,randomvalue+1);
+  // }
+  // passchar = temppass;
 
   // The return function states that the output of function generatepassword is this
   return passchar;
 }
-
 
 
 // Write password to the #password input
